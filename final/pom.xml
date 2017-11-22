@@ -63,6 +63,16 @@
           <artifactId>org.restlet.ext.gae</artifactId>
           <version>${restlet.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.restlet.gae</groupId>
+            <artifactId>org.restlet.ext.servlet</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.gae</groupId>
+            <artifactId>org.restlet.ext.jackson</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
 <!-- [END Restlet_Dependencies] -->
 
         <!-- Test Dependencies -->
