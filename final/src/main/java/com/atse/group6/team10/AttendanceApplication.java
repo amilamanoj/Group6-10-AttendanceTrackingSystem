@@ -1,5 +1,6 @@
 package com.atse.group6.team10;
 
+import com.atse.group6.team10.resource.QrCodeResource;
 import com.atse.group6.team10.resource.StudentResource;
 import org.restlet.Application;
 import org.restlet.Restlet;
@@ -15,8 +16,9 @@ public class AttendanceApplication extends Application {
         // Create a router Restlet that routes each call
         Router router = new Router(getContext());
 
-        // Defines one route
+        // Define routes
         router.attach("/students/{student}", StudentResource.class);
+        router.attach("/token/{id}", QrCodeResource.class);
 
         return router;
     }
