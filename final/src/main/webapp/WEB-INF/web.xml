@@ -4,18 +4,34 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 <!-- [START standard_mappings] -->
+    <!--Restlet mappings-->
     <servlet>
-      <servlet-name>sign</servlet-name>
-      <servlet-class>com.example.guestbook.SignGuestbookServlet</servlet-class>
+        <servlet-name>RestletServlet</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.application</param-name>
+            <param-value>com.atse.group6.team10.AttendanceApplication</param-value>
+        </init-param>
+    </servlet>
+    <!-- Serve /rest/ path -->
+    <servlet-mapping>
+        <servlet-name>RestletServlet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+<!-- [START standard_mappings] -->
+    <servlet>
+      <servlet-name>registration</servlet-name>
+      <servlet-class>com.atse.group6.team10.controller.RegistrationServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-      <servlet-name>sign</servlet-name>
-      <url-pattern>/sign</url-pattern>
+      <servlet-name>registration</servlet-name>
+      <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>guestbook.jsp</welcome-file>
+        <welcome-file>groupListView.jsp</welcome-file>
     </welcome-file-list>
 <!-- [END standard_mappings] -->
 
@@ -29,7 +45,7 @@
       <url-pattern>/*</url-pattern>
     </filter-mapping>
     <listener>
-      <listener-class>com.example.guestbook.OfyHelper</listener-class>
+      <listener-class>com.atse.group6.team10.controller.OfyHelper</listener-class>
     </listener>
 <!-- [END Objectify] -->
 </web-app>
