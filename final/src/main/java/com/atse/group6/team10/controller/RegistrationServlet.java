@@ -1,10 +1,12 @@
 package com.atse.group6.team10.controller;
 
+import com.atse.group6.team10.model.Group;
 import com.atse.group6.team10.model.Student;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Ref;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,13 +23,18 @@ public class RegistrationServlet extends HttpServlet {
         if (user != null) {
             StudentService studentService = new StudentService();
             Student s = studentService.getStudentForUser(user.getUserId());
-            int selectedGroup = Integer.parseInt(req.getParameter("groupNumber"));
-            int selectedTeam = Integer.parseInt(req.getParameter("teamNumber"));
+
+            String selectedGroupString = req.getParameter("groupNumber");
+            Long selectedGroupId = Long.parseLong(selectedGroupString);
+
+            GroupService groupService = new GroupService();
+            Group g = groupService.getGroup(selectedGroupId);
+
             if (s == null) {
-                s = new Student(user.getEmail(), user.getUserId(), selectedGroup, selectedTeam);
-            }else{
-                s.setGroup(selectedGroup);
-                s.setTeamNumber(selectedTeam);
+                s = new Student(user.getEmail(), user.getUserId(), g);
+            }else if(s != null && s.getGroup() == null){
+                Ref<Group> groupRef = Ref.create(g);
+                s.setGroup(groupRef);
             }
             ObjectifyService.ofy().save().entity(s);
 

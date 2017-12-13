@@ -1,45 +1,56 @@
 package com.atse.group6.team10.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.atse.group6.team10.model.Group;
+import com.googlecode.objectify.ObjectifyService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class GroupService {
 
-    private List<Integer> groups;
-    private Map<Integer,List<Integer>> groupTeamsMapping;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("E hh:mm");
 
-    public GroupService(){
-        groups = new ArrayList<>();
-        groupTeamsMapping = new HashMap<>();
+    private static List<Group> groups;
 
-        for(int i = 0; i< 5 ; i ++){
-            groups.add(i);
+    public static List<Group> getGroups() {
+        groups = ObjectifyService.ofy()
+                .load()
+                .type(Group.class)
+                .list();
+        if (groups.isEmpty()) {
+            ObjectifyService.ofy().save().entity(new Group("Group1", parseDate("Tuesday 15:00"))).now();
+            ObjectifyService.ofy().save().entity(new Group("Group2", parseDate("Tuesday 9:00"))).now();
+            ObjectifyService.ofy().save().entity(new Group("Group3", parseDate("Sunday 11:00"))).now();
+            ObjectifyService.ofy().save().entity(new Group("Group4", parseDate("Monday 13:00"))).now();
+            ObjectifyService.ofy().save().entity(new Group("Group5", parseDate("Friday 23:00"))).now();
+            return getGroups();
         }
-
-        for(int i = 0; i < groups.size(); i++){
-            List<Integer> teams = new ArrayList<>();
-            for(int j = 0; j < 10; j++){
-                teams.add(j);
-            }
-            groupTeamsMapping.put(i,teams);
-        }
-    }
-
-    public List<Integer> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<Integer> groups) {
-        this.groups = groups;
+    private static Date parseDate(String dateString) {
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public Map<Integer, List<Integer>> getGroupTeamsMapping() {
-        return groupTeamsMapping;
+
+    public GroupService() {
+        groups = getGroups();
     }
 
-    public void setGroupTeamsMapping(Map<Integer, List<Integer>> groupTeamsMapping) {
-        this.groupTeamsMapping = groupTeamsMapping;
+    public Group getGroup(Long groupId) {
+        Group foundGroup = null;
+        for (Group g : groups) {
+            if (g.getId().equals(groupId)) {
+                foundGroup = g;
+                break;
+            }
+        }
+        return foundGroup;
     }
 }

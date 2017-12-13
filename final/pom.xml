@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
@@ -8,7 +9,7 @@
     <groupId>de.tum.ase.g610.ats</groupId>
     <artifactId>ats-backend</artifactId>
 
-<!-- [START set_versions] -->
+    <!-- [START set_versions] -->
     <properties>
         <appengine.app.version>1</appengine.app.version>
         <appengine.sdk.version>1.9.48</appengine.sdk.version>
@@ -23,7 +24,17 @@
     <prerequisites>
         <maven>3.1.0</maven>
     </prerequisites>
-<!-- [END set_versions] -->
+    <!-- [END set_versions] -->
+
+    <!-- Repositories -->
+
+    <repositories>
+        <repository>
+            <id>maven-restlet</id>
+            <name>Public online Restlet repository</name>
+            <url>http://maven.restlet.com</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- Compile/runtime dependencies -->
@@ -44,24 +55,24 @@
             <version>1.2</version>
         </dependency>
 
-<!-- [START Objectify_Dependencies] -->
+        <!-- [START Objectify_Dependencies] -->
         <dependency>
-          <groupId>com.google.guava</groupId>
-          <artifactId>guava</artifactId>
-          <version>${guava.version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
-          <groupId>com.googlecode.objectify</groupId>
-          <artifactId>objectify</artifactId>
-          <version>${objectify.version}</version>
+            <groupId>com.googlecode.objectify</groupId>
+            <artifactId>objectify</artifactId>
+            <version>${objectify.version}</version>
         </dependency>
-<!-- [END Objectify_Dependencies] -->
+        <!-- [END Objectify_Dependencies] -->
 
-<!-- [START Restlet_Dependencies] -->
+        <!-- [START Restlet_Dependencies] -->
         <dependency>
-          <groupId>org.restlet.gae</groupId>
-          <artifactId>org.restlet.ext.gae</artifactId>
-          <version>${restlet.version}</version>
+            <groupId>org.restlet.gae</groupId>
+            <artifactId>org.restlet.ext.gae</artifactId>
+            <version>${restlet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.restlet.gae</groupId>
@@ -73,7 +84,6 @@
             <artifactId>org.restlet.ext.jackson</artifactId>
             <version>${restlet.version}</version>
         </dependency>
-<!-- [END Restlet_Dependencies] -->
 
         <!-- Test Dependencies -->
         <dependency>
@@ -152,12 +162,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>maven-restlet</id>
-            <name>Public online Restlet repository</name>
-            <url>http://maven.restlet.com</url>
-        </repository>
-    </repositories>
 </project>

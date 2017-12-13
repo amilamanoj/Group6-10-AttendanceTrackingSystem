@@ -34,13 +34,17 @@
         if (s != null) {
             pageContext.setAttribute("userId", s.getId());
             pageContext.setAttribute("email", s.getEmail());
-            pageContext.setAttribute("teamNumber", s.getTeamNumber());
-            pageContext.setAttribute("groupNumber", s.getGroup());
+            pageContext.setAttribute("group", s.getGroup().get());
         }
     %>
     <div>
-        <p>User ${fn:escapeXml(email)} is registered for group ${fn:escapeXml(groupNumber)}
-            team ${fn:escapeXml(teamNumber)} </p>
+        <p>User ${fn:escapeXml(email)} is registered for group ${fn:escapeXml(group)}}</p>
+    </div>
+
+    <div>
+        <form action = "/unregister" method = "post">
+            <input type="submit" name="switchGroup" value="Change Group" />
+        </form>
     </div>
 
 </div>
