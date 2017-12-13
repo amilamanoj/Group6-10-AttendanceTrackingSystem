@@ -15,6 +15,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Map.Entry" %>
+<%@ page import="com.atse.group6.team10.model.Group" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
@@ -68,29 +69,26 @@
             StudentService studentService = new StudentService();
             Student s = studentService.getStudentForUser(user.getUserId());
 
-            GroupService gService = new GroupService();
-            Map<Integer, List<Integer>> groupTeamMap = gService.getGroupTeamsMapping();
-            for (Entry<Integer, List<Integer>> e : groupTeamMap.entrySet()) {
-                Integer groupNumber = e.getKey();
-                pageContext.setAttribute("groupNumber", groupNumber);
+            List<Group> groups = GroupService.getGroups();
 
     %>
     <form action="/register" method="post">
-        <div class="group collapsed">
-            <label class="icon-expandable" onclick="toggleExpand(this)"> Group '${fn:escapeXml(groupNumber)}' </label>
-            <%
-                for (Integer teamNumber : e.getValue()) {
-                    pageContext.setAttribute("teamNumber", teamNumber);
-            %>
+        <%
+            for (Group g : groups) {
+                Long groupId = g.getId();
+                pageContext.setAttribute("groupNumber", groupId);
+                pageContext.setAttribute("groupName", g.getName());
+                pageContext.setAttribute("groupAppointment", g.getFormattedAppointmentDate());
+        %>
+        <div>
             <div>
                 <input type="radio" class="group" name="groupNumber" value="${fn:escapeXml(groupNumber)}">
-                <input type="hidden" class="team" name="teamNumber" value="${fn:escapeXml(teamNumber)}">
-                <label> Group '${fn:escapeXml(groupNumber)}' | Team '${fn:escapeXml(teamNumber)}'</label>
+                <label> Group ${fn:escapeXml(groupNumber)} </label>
+                <div>
+                    <label>Name: ${fn:escapeXml(groupName)}</label>
+                    <label>Date: ${fn:escapeXml(groupAppointment)}</label>
+                </div>
             </div>
-
-            <%
-                }
-            %>
         </div>
         <%
 

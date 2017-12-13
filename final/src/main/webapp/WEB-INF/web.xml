@@ -29,6 +29,10 @@
       <servlet-name>registration</servlet-name>
       <url-pattern>/register</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>registration</servlet-name>
+        <url-pattern>/unregister</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>groupListView.jsp</welcome-file>

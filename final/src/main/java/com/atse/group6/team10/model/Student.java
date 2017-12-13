@@ -1,6 +1,7 @@
 package com.atse.group6.team10.model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -10,12 +11,10 @@ public class Student {
 
     @Id
     private String id;
-
     private String email;
-    private Group group;
-    private int teamNumber;
+    private Ref<Group> group;
 
-    public Student(){
+    public Student() {
 
     }
 
@@ -24,10 +23,9 @@ public class Student {
         this.id = userId;
     }
 
-    public Student(String email, String userId, Group group, int teamNumber) {
+    public Student(String email, String userId, Group group) {
         this(email, userId);
-        this.group = group;
-        this.teamNumber = teamNumber;
+        this.group = Ref.create(group);
     }
 
     public String getId() {
@@ -38,20 +36,12 @@ public class Student {
         this.id = id;
     }
 
-    public Group getGroup() {
+    public Ref<Group> getGroup() {
         return this.group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(Ref<Group> group) {
         this.group = group;
-    }
-
-    public int getTeamNumber() {
-        return this.teamNumber;
-    }
-
-    public void setTeamNumber(int teamNumber) {
-        this.teamNumber = teamNumber;
     }
 
 
