@@ -46,7 +46,7 @@
         <a href="<%= userService.createLogoutURL("/home.jsp") %>">sign out</a>.
     </p>
     <div>
-        <p>You are registered for the group ${fn:escapeXml(group)}}</p>
+        <p>You are registered for the group: ${fn:escapeXml(group)}</p>
     </div>
     <div>
         <form action = "/groupListView.jsp" method = "post">

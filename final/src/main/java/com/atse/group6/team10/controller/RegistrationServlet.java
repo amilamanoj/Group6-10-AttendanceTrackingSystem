@@ -22,21 +22,21 @@ public class RegistrationServlet extends HttpServlet {
         User user = userService.getCurrentUser();  // Find out who the user is.
         if (user != null) {
             StudentService studentService = new StudentService();
-            Student s = studentService.getStudentForUser(user.getUserId());
+            Student student = studentService.getStudentForUser(user.getUserId());
 
             String selectedGroupString = req.getParameter("groupNumber");
             Long selectedGroupId = Long.parseLong(selectedGroupString);
 
-            GroupService groupService = new GroupService();
-            Group g = groupService.getGroup(selectedGroupId);
+            GroupService groupService = GroupService.getInstance();
+            Group group = groupService.getGroup(selectedGroupId);
 
-            if (s == null) {
-                s = new Student(user.getEmail(), user.getUserId(), g);
-            }else if(s != null && s.getGroup() == null){
-                Ref<Group> groupRef = Ref.create(g);
-                s.setGroup(groupRef);
+            if (student == null) {
+                student = new Student(user.getEmail(), user.getUserId(), group);
+            } else {
+                Ref<Group> groupRef = Ref.create(group);
+                student.setGroup(groupRef);
             }
-            ObjectifyService.ofy().save().entity(s);
+            ObjectifyService.ofy().save().entity(student);
 
             resp.sendRedirect("registeredGroup.jsp?userId="+user.getUserId());
         }

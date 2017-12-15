@@ -8,13 +8,9 @@
 <%@ page import="com.atse.group6.team10.model.Student" %>
 <%@ page import="com.atse.group6.team10.controller.GroupService" %>
 <%@ page import="com.atse.group6.team10.controller.StudentService" %>
-<%@ page import="com.googlecode.objectify.Key" %>
-<%@ page import="com.googlecode.objectify.ObjectifyService" %>
 <%-- //[END imports]--%>
 
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Map.Entry" %>
 <%@ page import="com.atse.group6.team10.model.Group" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -62,14 +58,13 @@
     }
 </script>
 
-<h1>Groupregistration system</h1>
+<h1>Select your group</h1>
 <div id="grouptree">
     <%
         if (user != null) {
             StudentService studentService = new StudentService();
             Student s = studentService.getStudentForUser(user.getUserId());
-
-            List<Group> groups = GroupService.getGroups();
+            List<Group> groups = GroupService.getInstance().getGroups();
 
     %>
     <form action="/register" method="post">

@@ -1,6 +1,8 @@
 package com.atse.group6.team10.controller;
 
 import com.atse.group6.team10.model.Group;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
 import java.text.ParseException;
@@ -9,38 +11,57 @@ import java.util.*;
 
 public class GroupService {
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("E hh:mm");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-    private static List<Group> groups;
+    private List<Group> groups;
 
-    public static List<Group> getGroups() {
-        groups = ObjectifyService.ofy()
+    private static GroupService instance;
+
+    private Objectify ofy;
+
+    private GroupService() {
+        ofy = ObjectifyService.ofy();
+    }
+
+    public static GroupService getInstance() {
+        if (instance == null) {
+            instance = new GroupService();
+        }
+        return instance;
+    }
+
+    public  List<Group> getGroups() {
+        groups = ofy
                 .load()
                 .type(Group.class)
                 .list();
         if (groups.isEmpty()) {
-            ObjectifyService.ofy().save().entity(new Group("Group1", parseDate("Tuesday 15:00"))).now();
-            ObjectifyService.ofy().save().entity(new Group("Group2", parseDate("Tuesday 9:00"))).now();
-            ObjectifyService.ofy().save().entity(new Group("Group3", parseDate("Sunday 11:00"))).now();
-            ObjectifyService.ofy().save().entity(new Group("Group4", parseDate("Monday 13:00"))).now();
-            ObjectifyService.ofy().save().entity(new Group("Group5", parseDate("Friday 23:00"))).now();
+            createGroups();
             return getGroups();
         }
         return groups;
     }
 
-    private static Date parseDate(String dateString) {
+    private void createGroups() {
+        // delete any old data
+        Objectify ofy = ObjectifyService.ofy();
+        List<Key<Group>> keys = ofy.load().type(Group.class).keys().list();
+        ofy.delete().keys(keys).now();
+        // add new data
+        ObjectifyService.ofy().save().entity(new Group("Group1", parseDate("18/12/2017 09:00"))).now();
+        ObjectifyService.ofy().save().entity(new Group("Group2", parseDate("19/12/2017 10:00"))).now();
+        ObjectifyService.ofy().save().entity(new Group("Group3", parseDate("20/12/2017 14:00"))).now();
+        ObjectifyService.ofy().save().entity(new Group("Group4", parseDate("21/12/2017 11:00"))).now();
+        ObjectifyService.ofy().save().entity(new Group("Group5", parseDate("22/12/2017 09:30"))).now();
+    }
+
+    private Date parseDate(String dateString) {
         try {
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-
-    public GroupService() {
-        groups = getGroups();
     }
 
     public Group getGroup(Long groupId) {
