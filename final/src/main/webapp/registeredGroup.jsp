@@ -6,10 +6,7 @@
 
 <%-- //[START imports]--%>
 <%@ page import="com.atse.group6.team10.model.Student" %>
-<%@ page import="com.atse.group6.team10.controller.GroupService" %>
 <%@ page import="com.atse.group6.team10.controller.StudentService" %>
-<%@ page import="com.googlecode.objectify.Key" %>
-<%@ page import="com.googlecode.objectify.ObjectifyService" %>
 <%-- //[END imports]--%>
 
 <%@ page import="java.util.List" %>
@@ -26,23 +23,33 @@
 
 <body>
 
-<h1>Registration status</h1>
+<h1>Registration</h1>
 <div id="registration">
     <%
         StudentService studentService = new StudentService();
-        Student s = studentService.getStudentForUser(request.getParameter("userId"));
-        if (s != null) {
-            pageContext.setAttribute("userId", s.getId());
-            pageContext.setAttribute("email", s.getEmail());
-            pageContext.setAttribute("group", s.getGroup().get());
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        if (user == null) {
+            response.sendRedirect("home.jsp");
+        } else {
+
+            Student s = studentService.getStudentForUser(user.getUserId());
+            if (s != null) {
+                pageContext.setAttribute("userId", s.getId());
+                pageContext.setAttribute("email", s.getEmail());
+                pageContext.setAttribute("group", s.getGroup().get());
+            }
         }
     %>
-    <div>
-        <p>User ${fn:escapeXml(email)} is registered for group ${fn:escapeXml(group)}}</p>
-    </div>
 
+    <p>Welcome back ${fn:escapeXml(email)}, you can
+        <a href="<%= userService.createLogoutURL("/home.jsp") %>">sign out</a>.
+    </p>
     <div>
-        <form action = "/unregister" method = "post">
+        <p>You are registered for the group ${fn:escapeXml(group)}}</p>
+    </div>
+    <div>
+        <form action = "/groupListView.jsp" method = "post">
             <input type="submit" name="switchGroup" value="Change Group" />
         </form>
     </div>
