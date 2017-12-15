@@ -17,7 +17,7 @@ public class AttendancesResource extends ServerResource {
         this.studentId = getAttribute(AttendanceApplication.studentIdentifier);
     }
 
-    @Get()
+    @Get("json")
     public List<Attendance> getAttendances() {
         AttendanceService service = AttendanceService.getInstance();
         List<Attendance> attendances = service.getAttendanceOfStudent(studentId);
