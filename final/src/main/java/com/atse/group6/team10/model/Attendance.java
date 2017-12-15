@@ -11,18 +11,19 @@ public class Attendance {
     @Id
     private Long id;
     @Index
-    private Key<Student> student;
-    private Key<Group> group;
-    private long weekId;
+    private String studentId;
+    private long groupId;
+    @Index
+    private int weekId;
     private boolean presented;
 
     public Attendance(){
 
     }
 
-    public Attendance(Key<Student> studentKey, Key<Group> groupKey, long weekId, boolean presented){
-        this.student = studentKey;
-        this.group = groupKey;
+    public Attendance(String studentId, long groupId, int weekId, boolean presented) {
+        this.studentId = studentId;
+        this.groupId = groupId;
         this.weekId = weekId;
         this.presented = presented;
     }
@@ -35,11 +36,11 @@ public class Attendance {
         this.presented = presented;
     }
 
-    public long getWeekId() {
+    public int getWeekId() {
         return weekId;
     }
 
-    public void setWeekId(long weekId) {
+    public void setWeekId(int weekId) {
         this.weekId = weekId;
     }
 
@@ -51,19 +52,19 @@ public class Attendance {
         this.id = id;
     }
 
-    public Key<Student> getStudent() {
-        return student;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudent(Key<Student> student) {
-        this.student = student;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public Key<Group> getGroup() {
-        return group;
+    public long getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(Key<Group> group) {
-        this.group = group;
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
     }
 }

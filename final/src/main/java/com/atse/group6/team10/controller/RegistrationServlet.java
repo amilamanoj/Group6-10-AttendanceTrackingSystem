@@ -5,13 +5,14 @@ import com.atse.group6.team10.model.Student;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class RegistrationServlet extends HttpServlet {
 
@@ -36,7 +37,9 @@ public class RegistrationServlet extends HttpServlet {
                 Ref<Group> groupRef = Ref.create(group);
                 student.setGroup(groupRef);
             }
-            ObjectifyService.ofy().save().entity(student);
+            ofy().save().entity(student);
+
+            AttendanceService.getInstance().createAttendanceRecordsForStudent(student);
 
             resp.sendRedirect("registeredGroup.jsp?userId="+user.getUserId());
         }

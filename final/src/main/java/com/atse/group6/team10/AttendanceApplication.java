@@ -13,6 +13,7 @@ public class AttendanceApplication extends Application {
     //Identifier for the request parameters
     public static final String attendanceIdentifier = "attendanceId";
     public static final String studentIdentifier = "studentId";
+    public static final String weekNumberIdentifier = "weekNumber";
 
     /**
      * Creates a root Restlet that will receive all incoming calls.
@@ -26,7 +27,7 @@ public class AttendanceApplication extends Application {
         router.attach("/students/{" + studentIdentifier + "}", StudentResource.class);
         router.attach("/token/{id}", QrCodeResource.class);
         router.attach("/students/{" + studentIdentifier + "}/attendances", AttendancesResource.class);
-        router.attach("/students/{" + studentIdentifier + "}/attendances/{" +attendanceIdentifier+"}", AttendanceResource.class);
+        router.attach("/students/{" + studentIdentifier + "}/attendances/{" +weekNumberIdentifier+"}", AttendanceResource.class);
 
         return router;
     }

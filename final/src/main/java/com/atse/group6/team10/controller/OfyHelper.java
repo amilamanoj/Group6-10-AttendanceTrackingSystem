@@ -1,5 +1,6 @@
 package com.atse.group6.team10.controller;
 
+import com.atse.group6.team10.model.Attendance;
 import com.atse.group6.team10.model.Group;
 import com.atse.group6.team10.model.Student;
 import com.googlecode.objectify.ObjectifyService;
@@ -13,6 +14,7 @@ public class OfyHelper implements ServletContextListener {
         // request.
         ObjectifyService.register(Student.class);
         ObjectifyService.register(Group.class);
+        ObjectifyService.register(Attendance.class);
     }
 
     public void contextDestroyed(ServletContextEvent event) {

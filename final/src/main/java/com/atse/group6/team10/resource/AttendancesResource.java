@@ -19,7 +19,7 @@ public class AttendancesResource extends ServerResource {
 
     @Get("json")
     public List<Attendance> getAttendances() {
-        AttendanceService service = new AttendanceService();
+        AttendanceService service = AttendanceService.getInstance();
         List<Attendance> attendances = service.getAttendanceOfStudent(studentId);
         return attendances;
     }
