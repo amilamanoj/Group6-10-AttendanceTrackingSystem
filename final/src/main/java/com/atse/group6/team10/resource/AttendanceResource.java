@@ -21,7 +21,7 @@ public class AttendanceResource extends ServerResource {
     }
 
 
-    @Get("json")
+    @Get()
     public Attendance getAttendance() {
         AttendanceService service = AttendanceService.getInstance();
         Attendance attendance = service.getAttendanceToken(studentId, Integer.parseInt(weekId));
@@ -29,7 +29,7 @@ public class AttendanceResource extends ServerResource {
         return attendance;
     }
 
-    @Post("json")
+    @Post()
     public void createAttendance() {
         AttendanceService service = AttendanceService.getInstance();
         service.updateAttendance(Long.valueOf(attendanceId), true);

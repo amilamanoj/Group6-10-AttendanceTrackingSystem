@@ -42,8 +42,9 @@
         }
     %>
 
-    <p>Welcome back ${fn:escapeXml(email)}, you can
-        <a href="<%= userService.createLogoutURL("/home.jsp") %>">sign out</a>.
+    <p>Welcome back ${fn:escapeXml(email)}.
+        <a href="<%= userService.createLogoutURL("/home.jsp") %>">sign out</a>
+        <br/> Your user id: ${fn:escapeXml(userId)}
     </p>
     <div>
         <p>You are registered for the group: ${fn:escapeXml(group)}</p>
