@@ -24,7 +24,7 @@
     User user = userService.getCurrentUser();
     if (user != null) {
         pageContext.setAttribute("user", user);
-        StudentService studentService = new StudentService();
+        StudentService studentService = StudentService.getInstance();
         Student student = studentService.getStudentForUser(user.getUserId());
         if (student != null && student.getGroup().get() != null) {
             response.sendRedirect("registeredGroup.jsp");

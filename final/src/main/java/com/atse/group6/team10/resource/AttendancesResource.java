@@ -21,6 +21,9 @@ public class AttendancesResource extends ServerResource {
     public List<Attendance> getAttendances() {
         AttendanceService service = AttendanceService.getInstance();
         List<Attendance> attendances = service.getAttendanceOfStudent(studentId);
+        for (Attendance attendance : attendances) {
+            attendance.setToken("");
+        }
         return attendances;
     }
 }

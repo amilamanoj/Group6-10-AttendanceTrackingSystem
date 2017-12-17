@@ -22,7 +22,7 @@ public class RegistrationServlet extends HttpServlet {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();  // Find out who the user is.
         if (user != null) {
-            StudentService studentService = new StudentService();
+            StudentService studentService = StudentService.getInstance();
             Student student = studentService.getStudentForUser(user.getUserId());
 
             String selectedGroupString = req.getParameter("groupNumber");

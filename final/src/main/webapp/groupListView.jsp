@@ -62,7 +62,7 @@
 <div id="grouptree">
     <%
         if (user != null) {
-            StudentService studentService = new StudentService();
+            StudentService studentService = StudentService.getInstance();
             Student s = studentService.getStudentForUser(user.getUserId());
             List<Group> groups = GroupService.getInstance().getGroups();
 

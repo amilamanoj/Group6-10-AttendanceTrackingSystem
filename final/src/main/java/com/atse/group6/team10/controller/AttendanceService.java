@@ -2,8 +2,10 @@ package com.atse.group6.team10.controller;
 
 import com.atse.group6.team10.model.Attendance;
 import com.atse.group6.team10.model.Student;
+import com.googlecode.objectify.NotFoundException;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
@@ -30,11 +32,18 @@ public class AttendanceService {
     public Attendance getAttendanceToken(String studentId, int weekNumber) {
         List<Attendance> attendances = ofy().load().type(Attendance.class).filter("studentId", studentId)
                 .filter("weekId", weekNumber).list();
+        if (attendances.isEmpty()) {
+            throw new NotFoundException();
+        }
         return attendances.get(0);
     }
 
-    public void updateAttendance(Long attendanceId, boolean present) {
-        Attendance attendance = ofy().load().type(Attendance.class).id(attendanceId).now();
+    public void updateAttendance(String token, boolean present) {
+        List<Attendance> attendances = ofy().load().type(Attendance.class).filter("token", token).list();
+        if (attendances.isEmpty()) {
+            throw new NotFoundException();
+        }
+        Attendance attendance = attendances.get(0);
         attendance.setPresented(present);
         ofy().save().entity(attendance).now();
     }
@@ -42,6 +51,8 @@ public class AttendanceService {
     public void createAttendanceRecordsForStudent(Student student) {
         for (int week = 1; week <= NUM_OF_WEEKS; week++) {
             Attendance attendance = new Attendance(student.getId(), student.getGroup().get().getId(), week, false);
+            String token = UUID.randomUUID().toString();
+            attendance.setToken(token);
             ofy().save().entity(attendance).now();
         }
     }

@@ -26,7 +26,7 @@
 <h1>Registration</h1>
 <div id="registration">
     <%
-        StudentService studentService = new StudentService();
+        StudentService studentService = StudentService.getInstance();
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         if (user == null) {

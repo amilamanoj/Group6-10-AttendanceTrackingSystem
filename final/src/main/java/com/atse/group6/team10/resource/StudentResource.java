@@ -20,7 +20,7 @@ public class StudentResource extends ServerResource {
     public Student getStudent() {
 
         //studentId
-        Student s = new StudentService().getStudentForUser(studentId);
+        Student s = StudentService.getInstance().getStudentForUser(studentId);
         return s;
     }
 
