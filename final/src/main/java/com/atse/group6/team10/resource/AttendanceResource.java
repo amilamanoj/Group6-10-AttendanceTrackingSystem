@@ -2,6 +2,7 @@ package com.atse.group6.team10.resource;
 
 import com.atse.group6.team10.AttendanceApplication;
 import com.atse.group6.team10.controller.AttendanceService;
+import org.restlet.data.Status;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
@@ -20,9 +21,16 @@ public class AttendanceResource extends ServerResource {
 
 
     @Post("json")
-    public void updateAttendance() {
+    public String updateAttendance() {
         AttendanceService service = AttendanceService.getInstance();
-        service.updateAttendance(token, true);
+        try {
+            service.updateAttendance(token, true);
+            getResponse().setStatus(Status.SUCCESS_OK, "There is a conflict");
+            return "SUCCESS";
+        } catch (Exception e) {
+            getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "There is a conflict");
+            return "Invalid token";
+        }
     }
 
 }
