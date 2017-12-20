@@ -16,6 +16,7 @@ public class Attendance {
     private long groupId;
     @Index
     private int weekId;
+    private boolean attended;
     private boolean presented;
     @Index
     private String token;
@@ -77,5 +78,13 @@ public class Attendance {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public boolean isAttended() {
+        return attended;
+    }
+
+    public void setAttended(boolean attended) {
+        this.attended = attended;
     }
 }

@@ -28,7 +28,7 @@ public class AttendanceApplication extends Application {
         router.attach("/students/{" + studentIdentifier + "}", StudentResource.class);
         router.attach("/token/{" + studentIdentifier + "}/week/{" +weekNumberIdentifier+"}", QrCodeResource.class);
         router.attach("/students/{" + studentIdentifier + "}/attendances", AttendancesResource.class);
-        router.attach("/students/{" + studentIdentifier + "}/attendances/update/{" +tokenIdentifier+"}", AttendanceResource.class);
+        router.attach("/students/attendances/update/{" +tokenIdentifier+"}", AttendanceResource.class);
 
         return router;
     }
