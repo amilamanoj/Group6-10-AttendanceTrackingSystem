@@ -5,6 +5,8 @@ ATSE Lecture Project
 
 App for marking attendence
 
+[Visit repository](https://github.com/sangeetajoseph8/ASE_AttendanceTracker)
+
 ## Attendance Notary
 
 Notary service for maintenance of student attendance logs based on Distributed trust, Hash-chain and Cryptographic proofs.
