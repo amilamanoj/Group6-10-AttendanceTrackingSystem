@@ -1,5 +1,6 @@
 package com.atse.group6.team10.controller.servlet;
 
+import com.atse.group6.team10.controller.service.LoginService;
 import com.atse.group6.team10.controller.service.UserService;
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.model.User;
@@ -31,8 +32,7 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
         }
-        //Do nothing if authentification failed
-        //TODO: inform user about bad autentification
+        resp.sendRedirect("login.jsp?message=Authentification+failed,+please+check+username+and+password.");
     }
 
 
@@ -40,27 +40,20 @@ public class LoginServlet extends HttpServlet {
         String userMail = req.getParameter("email");
         String password = req.getParameter("password");
 
-        UserService userService = UserService.getInstance();
-        User user = userService.getUserForEMail(userMail);
-        if (user != null && userService.isExpectedPassword(user, password.toCharArray())) {
-            // Create Session Data here after successful authenticated.
-            LoginSession loginsession = getOptionalLoginSession(req);
-            if (loginsession == null) {
-                //create new session
-                createLoginSession(req, user.getId());
-            }
-            return true;
-        } else {
-            //user does not exist or invalid password
-        }
-        return false;
-    }
+        LoginSession existingSession = getOptionalLoginSession(req);
 
-    protected static LoginSession createLoginSession(HttpServletRequest req, Long userId) {
-        LoginSession result = new LoginSession(userId);
-        req.getSession(true).setAttribute(LoginSession.LOGIN_SESSION_KEY, result);
-        ofy().save().entity(result).now();
-        return result;
+        if(existingSession != null)
+            return true;
+
+        LoginService loginService = LoginService.getInstance();
+        LoginSession session = loginService.login(userMail, password);
+        if (session != null ) {
+            // Create Session Data here after successful authenticated.
+            req.getSession(true).setAttribute(LoginSession.LOGIN_SESSION_KEY, session);
+            return true;
+        }
+
+        return false;
     }
 
     public static LoginSession getOptionalLoginSession(HttpServletRequest req) {

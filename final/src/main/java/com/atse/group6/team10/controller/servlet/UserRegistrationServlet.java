@@ -1,6 +1,8 @@
 package com.atse.group6.team10.controller.servlet;
 
+import com.atse.group6.team10.controller.service.LoginService;
 import com.atse.group6.team10.controller.service.UserService;
+import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.model.User;
 
 import javax.servlet.ServletException;
@@ -24,12 +26,17 @@ public class UserRegistrationServlet extends HttpServlet {
 
             // useraccount for email already exists
             resp.sendRedirect("loginPage.jsp");
-        }else{
+        } else {
             //create new user
-            if(isStudent){
+            if (isStudent) {
                 User newUser = userService.createStudent(userMail, password);
-                LoginServlet.createLoginSession(req,newUser.getId());
-            }else{
+                LoginService loginService = LoginService.getInstance();
+                LoginSession session = loginService.login(userMail, password);
+                if (session != null) {
+                    // Create Session Data here after successful authenticated.
+                    req.getSession(true).setAttribute(LoginSession.LOGIN_SESSION_KEY, session);
+                }
+            } else {
                 userService.createTutor(userMail, password);
             }
             resp.sendRedirect("groupListView.jsp");

@@ -1,9 +1,6 @@
 package com.atse.group6.team10;
 
-import com.atse.group6.team10.resource.AttendanceResource;
-import com.atse.group6.team10.resource.AttendancesResource;
-import com.atse.group6.team10.resource.QrCodeResource;
-import com.atse.group6.team10.resource.UserResource;
+import com.atse.group6.team10.resource.*;
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
@@ -30,6 +27,7 @@ public class AttendanceApplication extends Application {
         router.attach("/token/{" + studentIdentifier + "}/week/{" +weekNumberIdentifier+"}", QrCodeResource.class);
         router.attach("/students/{" + studentIdentifier + "}/attendances", AttendancesResource.class);
         router.attach("/students/attendances/update/{" +tokenIdentifier+"}", AttendanceResource.class);
+        router.attach("/login", AuthentificationResource.class);
 
         return router;
     }

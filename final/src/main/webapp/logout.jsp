@@ -22,8 +22,5 @@
 <p>Hello!
     <a href="login.jsp">Sign in to get started</a>
 </p>
-<%
-    }
-%>
 </body>
 </html>

@@ -21,10 +21,16 @@ public class AuthentificationFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        //special pages
         String loginPageURI = request.getContextPath() + "/login.jsp";
         String loginServletURI = request.getContextPath() + "/login";
         String registrationPageURI = request.getContextPath() + "/registration.jsp";
         String registerURI = request.getContextPath() + "/register";
+
+        //rest endpoint
+        String path = request.getRequestURI();
+        boolean restEndpointRequest =  path.startsWith("/rest/");
 
         LoginSession session = LoginServlet.getOptionalLoginSession(request);
 
@@ -32,11 +38,14 @@ public class AuthentificationFilter implements Filter {
         boolean loadRegistrationPage = request.getRequestURI().equals(registrationPageURI);
 
         //TODO check whether the session is valid or not
-        boolean validSession = LoginServlet.getOptionalLoginSession(request) != null;
+        boolean validSession = session != null;
         boolean loginRequest = request.getRequestURI().equals(loginServletURI);
         boolean loadLoginPage = request.getRequestURI().equals(loginPageURI);
 
-        if (registerRequest || loadRegistrationPage || validSession || loginRequest || loadLoginPage) {
+        if (registerRequest || loadRegistrationPage
+                || loginRequest || loadLoginPage
+                || validSession
+                || restEndpointRequest) {
             filterChain.doFilter(request, response);
         } else {
             response.sendRedirect(loginPageURI);
