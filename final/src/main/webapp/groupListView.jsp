@@ -1,17 +1,15 @@
 <%-- //[START all]--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.google.appengine.api.users.User" %>
-<%@ page import="com.google.appengine.api.users.UserService" %>
-<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
 <%-- //[START imports]--%>
 <%@ page import="com.atse.group6.team10.model.Student" %>
-<%@ page import="com.atse.group6.team10.controller.GroupService" %>
-<%@ page import="com.atse.group6.team10.controller.StudentService" %>
+<%@ page import="com.atse.group6.team10.controller.service.GroupService" %>
+<%@ page import="com.atse.group6.team10.controller.service.UserService" %>
 <%-- //[END imports]--%>
 
 <%@ page import="java.util.List" %>
 <%@ page import="com.atse.group6.team10.model.Group" %>
+<%@ page import="com.atse.group6.team10.model.User" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
@@ -20,16 +18,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
-
-<%
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user == null) {
-        pageContext.setAttribute("user", user);
-        String loginURL = userService.createLoginURL(request.getRequestURI());
-        response.sendRedirect(loginURL);
-    }
-%>
 
 <script type="text/javascript">
     function toggleExpand(label) {
@@ -61,13 +49,9 @@
 <h1>Select your group</h1>
 <div id="grouptree">
     <%
-        if (user != null) {
-            StudentService studentService = StudentService.getInstance();
-            Student s = studentService.getStudentForUser(user.getUserId());
-            List<Group> groups = GroupService.getInstance().getGroups();
-
+        List<Group> groups = GroupService.getInstance().getGroups();
     %>
-    <form action="/register" method="post">
+    <form action="/registerGroup" method="post">
         <%
             for (Group g : groups) {
                 Long groupId = g.getId();
@@ -87,8 +71,8 @@
         </div>
         <%
 
-                }
             }
+
         %>
         <button type="submit" id="registration">
             Register

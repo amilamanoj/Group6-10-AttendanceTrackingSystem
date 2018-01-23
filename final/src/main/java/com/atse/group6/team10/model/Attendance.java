@@ -12,7 +12,7 @@ public class Attendance {
     @Id
     private Long id;
     @Index
-    private String studentId;
+    private Long studentId;
     private long groupId;
     @Index
     private int weekId;
@@ -25,7 +25,7 @@ public class Attendance {
 
     }
 
-    public Attendance(String studentId, long groupId, int weekId, boolean presented) {
+    public Attendance(Long studentId, long groupId, int weekId, boolean presented) {
         this.studentId = studentId;
         this.groupId = groupId;
         this.weekId = weekId;
@@ -56,11 +56,11 @@ public class Attendance {
         this.id = id;
     }
 
-    public String getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(String studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 

@@ -1,4 +1,4 @@
-package com.atse.group6.team10.controller;
+package com.atse.group6.team10.controller.service;
 
 import com.atse.group6.team10.model.Attendance;
 import com.atse.group6.team10.model.Student;
@@ -24,7 +24,7 @@ public class AttendanceService {
     private AttendanceService() {
     }
 
-    public List<Attendance> getAttendanceOfStudent(String studentId) {
+    public List<Attendance> getAttendanceOfStudent(Long studentId) {
         List<Attendance> loadResult = ofy().load().type(Attendance.class).filter("studentId", studentId).list();
         return loadResult;
     }

@@ -1,7 +1,7 @@
 package com.atse.group6.team10.resource;
 
 import com.atse.group6.team10.AttendanceApplication;
-import com.atse.group6.team10.controller.AttendanceService;
+import com.atse.group6.team10.controller.service.AttendanceService;
 import com.atse.group6.team10.model.Attendance;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;

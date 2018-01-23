@@ -1,4 +1,4 @@
-package com.atse.group6.team10.controller;
+package com.atse.group6.team10.controller.service;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 

@@ -1,43 +1,33 @@
-<%-- //[START all]--%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.google.appengine.api.users.User" %>
-<%@ page import="com.google.appengine.api.users.UserService" %>
-<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
-<%@ page import="com.atse.group6.team10.model.Student" %>
-<%@ page import="com.atse.group6.team10.controller.StudentService" %>
-<%--
+<%@ page import="com.atse.group6.team10.model.LoginSession" %>
+<%@ page import="com.atse.group6.team10.controller.service.UserService" %>
+<%@ page import="com.atse.group6.team10.controller.servlet.LoginServlet" %>
+<%@ page import="com.atse.group6.team10.model.User" %>
+<%@ page import="com.atse.group6.team10.model.Student" %><%--
   Created by IntelliJ IDEA.
-  User: amila
-  Date: 12/13/17
-  Time: 2:34 PM
+  User: Tobias
+  Date: 1/23/2018
+  Time: 10:09 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Attendance Tracking System</title>
+    <title>Attendance Tracker System</title>
 </head>
 <body>
-<h1>Welcome to Attendance Tracking System</h1>
 <%
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-        pageContext.setAttribute("user", user);
-        StudentService studentService = StudentService.getInstance();
-        Student student = studentService.getStudentForUser(user.getUserId());
-        if (student != null && student.getGroup().get() != null) {
+    LoginSession loginSession = LoginServlet.getOptionalLoginSession(request);
+    UserService service = UserService.getInstance();
+    User user = service.getUserForId(loginSession.getUser().getId());
+    if (user != null && user.isStudent()) {
+        Student student = (Student) user;
+        if (student != null && student.getGroup() != null) {
             response.sendRedirect("registeredGroup.jsp");
         } else {
             response.sendRedirect("groupListView.jsp");
         }
-    } else {
-%>
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in to get started</a>
-</p>
-<%
     }
 %>
+<h1>Welcome to the Attendance Tracker System!</h1>
 </body>
 </html>
