@@ -65,4 +65,11 @@ public class LoginServlet extends HttpServlet {
         return result;
     }
 
+    public static void logout(HttpServletRequest req) {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            session.removeAttribute(LoginSession.LOGIN_SESSION_KEY);
+        }
+    }
+
 }

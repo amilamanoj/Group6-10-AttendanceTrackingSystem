@@ -25,8 +25,11 @@ public class AuthentificationFilter implements Filter {
         //special pages
         String loginPageURI = request.getContextPath() + "/login.jsp";
         String loginServletURI = request.getContextPath() + "/login";
+
         String registrationPageURI = request.getContextPath() + "/registration.jsp";
         String registerURI = request.getContextPath() + "/register";
+
+        String logoutPageURI = request.getContextPath() + "/logout.jsp";
 
         //rest endpoint
         String path = request.getRequestURI();
@@ -42,13 +45,17 @@ public class AuthentificationFilter implements Filter {
         boolean loginRequest = request.getRequestURI().equals(loginServletURI);
         boolean loadLoginPage = request.getRequestURI().equals(loginPageURI);
 
+        boolean loadLogoutPage = request.getRequestURI().equals(logoutPageURI);
+
         if (registerRequest || loadRegistrationPage
                 || loginRequest || loadLoginPage
+                || loadLogoutPage
                 || validSession
                 || restEndpointRequest) {
             filterChain.doFilter(request, response);
         } else {
-            response.sendRedirect(loginPageURI);
+            response.sendRedirect(loginPageURI +
+                    "?redirect=" +request.getRequestURI());
         }
     }
 

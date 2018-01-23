@@ -14,7 +14,15 @@
 </head>
 <body>
 <h1>Login</h1>
-<form action="/login?redirectUri=home.jsp" method="post">
+<%
+    String redirect = request.getParameter("redirect");
+    if(redirect != null && !redirect.isEmpty()) {
+        pageContext.setAttribute("redirect", redirect);
+    }else{
+        pageContext.setAttribute("redirect", "home.jsp");
+    }
+%>
+<form action="/login?redirectUri=${fn:escapeXml(redirect)}" method="post">
     <div>
             <div>
                 <label>E-Mail:</label>

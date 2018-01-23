@@ -38,7 +38,7 @@
     %>
 
     <p>Welcome back ${fn:escapeXml(email)}.
-        <%--<a href="<%= userService.createLogoutURL("/logout.jsp") %>">sign out</a> --%>
+        <a href="/logout.jsp" onclick="<% LoginServlet.logout(request); %>">sign out</a>
         <br/> Your user id: ${fn:escapeXml(userId)}
     </p>
     <div>
