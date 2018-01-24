@@ -29,7 +29,7 @@ public class AttendanceService {
         return loadResult;
     }
 
-    public Attendance getAttendanceToken(String studentId, int weekNumber) {
+    public Attendance getAttendanceToken(Long studentId, int weekNumber) {
         List<Attendance> attendances = ofy().load().type(Attendance.class).filter("studentId", studentId)
                 .filter("weekId", weekNumber).list();
         if (attendances.isEmpty()) {

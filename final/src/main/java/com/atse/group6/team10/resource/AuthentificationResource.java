@@ -15,7 +15,6 @@ public class AuthentificationResource extends ServerResource {
 
     @Post("json")
     public String login(String json) {
-        int test = ConfigurationService.getInstance().getCurrentWeek();
         Gson gson = new Gson();
         CredentialRest credentials = gson.fromJson(json, CredentialRest.class);
         if(credentials.getEmail() == null || credentials.getPassword() == null)

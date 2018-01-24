@@ -20,7 +20,7 @@ import java.net.URL;
 public class QrCodeResource extends ServerResource {
 
     public static final String CHART_API_CALL = "http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=";
-    private String studentId;
+    private Long studentId;
     private String weekId;
 
     @Get("image/jpeg")
@@ -56,7 +56,8 @@ public class QrCodeResource extends ServerResource {
 
     @Override
     public void doInit() {
-        this.studentId = getAttribute(AttendanceApplication.studentIdentifier);
+        String urlParameter =getAttribute(AttendanceApplication.studentIdentifier);
+        this.studentId = Long.parseLong(urlParameter);
         this.weekId = getAttribute(AttendanceApplication.weekNumberIdentifier);
     }
 
