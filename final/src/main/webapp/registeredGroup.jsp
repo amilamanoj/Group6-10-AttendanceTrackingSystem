@@ -12,6 +12,7 @@
 <%@ page import="com.atse.group6.team10.controller.servlet.LoginServlet" %>
 <%@ page import="com.atse.group6.team10.model.LoginSession" %>
 <%@ page import="com.atse.group6.team10.model.User" %>
+<%@ page import="com.atse.group6.team10.utils.AuthentificationUtils" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
@@ -26,7 +27,7 @@
 <h1>Registration</h1>
 <div id="registration">
     <%
-        LoginSession loginSession = LoginServlet.getOptionalLoginSession(request);
+        LoginSession loginSession = AuthentificationUtils.getOptionalLoginSession(request);
         UserService service = UserService.getInstance();
         User user = service.getUserForId(loginSession.getUser().getId());
         if (user != null && user.isStudent()) {
@@ -38,7 +39,7 @@
     %>
 
     <p>Welcome back ${fn:escapeXml(email)}.
-        <a href="/logout.jsp" onclick="<% LoginServlet.logout(request); %>">sign out</a>
+        <a href="/logout.jsp">sign out</a>
         <br/> Your user id: ${fn:escapeXml(userId)}
     </p>
     <div>

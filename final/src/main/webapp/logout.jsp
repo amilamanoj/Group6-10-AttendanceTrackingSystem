@@ -1,4 +1,4 @@
-<%-- //[START all]--%>
+<%@ page import="com.atse.group6.team10.utils.AuthentificationUtils" %><%-- //[START all]--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
@@ -13,6 +13,7 @@
     <title>Logout</title>
 </head>
 <body>
+<% AuthentificationUtils.destroyCookie(request,response); %>
 <h1>You are logged out. Please login again to use the service</h1>
 <p>Hello!
     <a href="login.jsp">Sign in to get started</a>

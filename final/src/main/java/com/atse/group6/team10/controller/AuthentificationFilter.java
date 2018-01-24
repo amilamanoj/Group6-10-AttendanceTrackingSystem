@@ -2,14 +2,19 @@ package com.atse.group6.team10.controller;
 
 import com.atse.group6.team10.controller.servlet.LoginServlet;
 import com.atse.group6.team10.model.LoginSession;
+import com.atse.group6.team10.utils.AuthentificationUtils;
+import org.restlet.engine.adapter.HttpRequest;
 
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class AuthentificationFilter implements Filter {
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -32,10 +37,11 @@ public class AuthentificationFilter implements Filter {
         String logoutPageURI = request.getContextPath() + "/logout.jsp";
 
         //rest endpoint
-        String path = request.getRequestURI();
-        boolean restEndpointRequest =  path.startsWith("/rest/");
+        String restEndpointLoginURI = request.getContextPath() + "/rest/login" ;
+        boolean restEndpointLoginRequest = request.getRequestURI().equals(restEndpointLoginURI) ;
 
-        LoginSession session = LoginServlet.getOptionalLoginSession(request);
+        Cookie sessionCookie = AuthentificationUtils.getCookie(AuthentificationUtils.SESSION_COOKIE, request);
+        LoginSession session = AuthentificationUtils.getSessionFromCookie(sessionCookie);
 
         boolean registerRequest = request.getRequestURI().equals(registerURI);
         boolean loadRegistrationPage = request.getRequestURI().equals(registrationPageURI);
@@ -51,13 +57,14 @@ public class AuthentificationFilter implements Filter {
                 || loginRequest || loadLoginPage
                 || loadLogoutPage
                 || validSession
-                || restEndpointRequest) {
+                || restEndpointLoginRequest) {
             filterChain.doFilter(request, response);
         } else {
             response.sendRedirect(loginPageURI +
-                    "?redirect=" +request.getRequestURI());
+                    "?redirect=" + request.getRequestURI());
         }
     }
+
 
     @Override
     public void destroy() {

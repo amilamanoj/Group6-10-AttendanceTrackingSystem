@@ -17,6 +17,9 @@ public class LoginService {
         return service;
     }
 
+    private LoginService (){
+
+    }
 
     private LoginSession createLoginSession(Long userId) {
         LoginSession result = new LoginSession(userId);

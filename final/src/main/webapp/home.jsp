@@ -2,7 +2,8 @@
 <%@ page import="com.atse.group6.team10.controller.service.UserService" %>
 <%@ page import="com.atse.group6.team10.controller.servlet.LoginServlet" %>
 <%@ page import="com.atse.group6.team10.model.User" %>
-<%@ page import="com.atse.group6.team10.model.Student" %><%--
+<%@ page import="com.atse.group6.team10.model.Student" %>
+<%@ page import="com.atse.group6.team10.utils.AuthentificationUtils" %><%--
   Created by IntelliJ IDEA.
   User: Tobias
   Date: 1/23/2018
@@ -16,7 +17,7 @@
 </head>
 <body>
 <%
-    LoginSession loginSession = LoginServlet.getOptionalLoginSession(request);
+    LoginSession loginSession = AuthentificationUtils.getOptionalLoginSession(request);
     UserService service = UserService.getInstance();
     User user = service.getUserForId(loginSession.getUser().getId());
     if (user != null && user.isStudent()) {

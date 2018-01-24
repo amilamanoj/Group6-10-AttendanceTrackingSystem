@@ -7,6 +7,7 @@ import com.atse.group6.team10.model.Group;
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.model.Student;
 import com.atse.group6.team10.model.User;
+import com.atse.group6.team10.utils.AuthentificationUtils;
 import com.googlecode.objectify.Ref;
 
 import javax.servlet.http.HttpServlet;
@@ -24,7 +25,7 @@ public class GroupRegistrationServlet extends HttpServlet {
         String selectedGroupString = req.getParameter("groupNumber");
 
         UserService userService = UserService.getInstance();
-        LoginSession session = LoginServlet.getOptionalLoginSession(req);
+        LoginSession session = AuthentificationUtils.getOptionalLoginSession(req);
         Long userId = session.getUser().getId();
         User user = userService.getUserForId(userId);
 
