@@ -4,8 +4,10 @@ import com.atse.group6.team10.controller.service.LoginService;
 import com.atse.group6.team10.controller.service.UserService;
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.model.User;
+import com.atse.group6.team10.utils.AuthentificationUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +36,8 @@ public class UserRegistrationServlet extends HttpServlet {
                 LoginSession session = loginService.login(userMail, password);
                 if (session != null) {
                     // Create Session Data here after successful authenticated.
-                    req.getSession(true).setAttribute(LoginSession.LOGIN_SESSION_KEY, session);
+                    Cookie sessionCookie = AuthentificationUtils.createCookie(session);
+                    resp.addCookie(sessionCookie);
                 }
             } else {
                 userService.createTutor(userMail, password);
