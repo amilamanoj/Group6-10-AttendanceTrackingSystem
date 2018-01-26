@@ -21,15 +21,11 @@ def tutorAuthentication():
     cad.lcd.write(result)
 
     # call auth API for tutor here
-    status = qrcode.tutorauth(result)
+    qrcode.tutorauth(result)
 
     cad.lcd.set_cursor(1, 0)
-    if '200' == status:
-        cad.lcd.write("AUTH SUCCESS")
-        return
-    else:
-        cad.lcd.write("AUTH FAILURE.exiting...")
-        sys.exit()
+    cad.lcd.write("TOKEN STORED")
+    return
 
 def main():
     # tutor auth
@@ -104,7 +100,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-

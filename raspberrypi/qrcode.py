@@ -3,10 +3,11 @@ import os, signal, subprocess
 import requests
 from datetime import datetime
 
-global url
+global host
+global session
 
 #update the deployment url here
-url = 'https://radiant-land-185414.appspot.com/rest/students/attendances/update/'
+host = 'https://radiant-land-185414.appspot.com'
 
 
 def read():
@@ -23,27 +24,27 @@ def read():
 
 
 def tutorauth(data):
-    global url
-    #update the link of attendance server here
-    url = url+data
-    headers = {'content-type': 'application/json'}
-    response = requests.post(url, headers=headers)
-    return response.status_code
+    global session
+    session = data
 
 
 def postattendance(data):
-    global url
-    #update the link of attendance server here
-    url = url+data
+    global host
+    global session
+    attendanceUrl = host + '/rest/students/attendances/update'
     headers = {'content-type': 'application/json'}
-    response = requests.post(url, headers=headers)
+    cookieName,cookieValue = session.split('=')
+    sessionCookie = {cookieName: cookieValue}
+    response = requests.post(attendanceUrl, headers=headers, cookies=sessionCookie, json={'token': data,'attended': 'true', 'presented':'false'})
     return response.status_code
 
 
 def postpresented(data):
-    global url
-    # update the link of attendance server here
-    url = url+data
+    global host
+    global session
+    attendanceUrl = host + '/rest/students/attendances/update'
     headers = {'content-type': 'application/json'}
-    response = requests.post(url, headers=headers)
+    cookieName,cookieValue = session.split('=')
+    sessionCookie = {cookieName: cookieValue}
+    response = requests.post(attendanceUrl, headers=headers, cookies=sessionCookie, json={'token': data,'attended': 'true', 'presented':'true'})
     return response.status_code
