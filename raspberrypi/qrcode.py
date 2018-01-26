@@ -1,29 +1,50 @@
-#!/usr/bin/python 
+#!/usr/bin/python
 import os, signal, subprocess
-import json
 import requests
-import datetime
+from datetime import datetime
+
+global host
+global session
+
+#update the deployment url here
+host = 'https://radiant-land-185414.appspot.com'
+
 
 def read():
-    #note teh time at which the qrcode read starts
-    qrcodetext = ''
-    now = datetime.datetime.now()
     zbarcam=subprocess.Popen("zbarcam --raw --nodisplay /dev/video0", stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
     print "cam successfully started"
+    # wait 2 minutes to scan the qr code else exit
     while True:
         qrcodetext = zbarcam.stdout.readline()
         if qrcodetext != "":
-            print "Success" 
             break
-        if str(datetime.datetime.now()) is str(now + datetime.timedelta(minutes=2)):
-            print "No qrcode scanned in last 2 minutes. Exiting..."
     os.killpg(zbarcam.pid, signal.SIGTERM)
     print "cam successfully stopped"
     return qrcodetext
 
 
+def tutorauth(data):
+    global session
+    session = data
+
+
 def postattendance(data):
-    url = 'https://radiant-land-185414.appspot.com/rest/students/attendances/update/'+data
+    global host
+    global session
+    attendanceUrl = host + '/rest/students/attendances/update'
     headers = {'content-type': 'application/json'}
-    response = requests.post(url, headers=headers)
-    return response
+    cookieName,cookieValue = session.split('=')
+    sessionCookie = {cookieName: cookieValue}
+    response = requests.post(attendanceUrl, headers=headers, cookies=sessionCookie, json={'token': data,'attended': 'true', 'presented':'false'})
+    return response.status_code
+
+
+def postpresented(data):
+    global host
+    global session
+    attendanceUrl = host + '/rest/students/attendances/update'
+    headers = {'content-type': 'application/json'}
+    cookieName,cookieValue = session.split('=')
+    sessionCookie = {cookieName: cookieValue}
+    response = requests.post(attendanceUrl, headers=headers, cookies=sessionCookie, json={'token': data,'attended': 'true', 'presented':'true'})
+    return response.status_code

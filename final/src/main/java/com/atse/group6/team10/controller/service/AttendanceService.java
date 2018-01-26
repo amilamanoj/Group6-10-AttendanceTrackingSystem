@@ -38,13 +38,14 @@ public class AttendanceService {
         return attendances.get(0);
     }
 
-    public void updateAttendance(String token, boolean attended) {
+    public void updateAttendance(String token, boolean attended, boolean presented) {
         List<Attendance> attendances = ofy().load().type(Attendance.class).filter("token", token).list();
         if (attendances.isEmpty()) {
             throw new NotFoundException();
         }
         Attendance attendance = attendances.get(0);
         attendance.setAttended(attended);
+        attendance.setPresented(presented);
         ofy().save().entity(attendance).now();
     }
 
