@@ -23,6 +23,10 @@ public class UserService {
     public static UserService getInstance() {
         if (instance == null) {
             instance = new UserService();
+            instance.createTutor("Tutor1", "1234");
+            instance.createTutor("Tutor2", "1234");
+            instance.createTutor("Tutor3", "1234");
+            instance.createTutor("Tutor4", "1234");
         }
         return instance;
     }
