@@ -2,6 +2,7 @@ package com.atse.group6.team10.resource;
 
 import com.atse.group6.team10.AttendanceApplication;
 import com.atse.group6.team10.controller.service.AttendanceService;
+import com.atse.group6.team10.controller.service.QRCodeService;
 import com.atse.group6.team10.model.Attendance;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
@@ -19,7 +20,6 @@ import java.net.URL;
 
 public class QrCodeResource extends ServerResource {
 
-    public static final String CHART_API_CALL = "http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=";
     private Long studentId;
     private String weekId;
 
@@ -48,10 +48,8 @@ public class QrCodeResource extends ServerResource {
             return new StringRepresentation(("Token not found"));
         }
         String token = attendance.getToken();
-        URL url = new URL(CHART_API_CALL + token);
-        URLFetchService urlService = URLFetchServiceFactory.getURLFetchService();
-        byte[] content = urlService.fetch(url).getContent();
-        return new ByteArrayRepresentation(content, MediaType.IMAGE_JPEG);
+        byte[] qrCodeContent = QRCodeService.getInstance().getQRCode(token);
+        return new ByteArrayRepresentation(qrCodeContent, MediaType.IMAGE_JPEG);
     }
 
     @Override

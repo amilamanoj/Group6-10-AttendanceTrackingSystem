@@ -3,13 +3,17 @@ package com.atse.group6.team10.resource;
 import com.atse.group6.team10.controller.AuthentificationFilter;
 import com.atse.group6.team10.controller.service.ConfigurationService;
 import com.atse.group6.team10.controller.service.LoginService;
+import com.atse.group6.team10.controller.service.UserService;
 import com.atse.group6.team10.model.LoginSession;
+import com.atse.group6.team10.model.User;
 import com.atse.group6.team10.utils.AuthentificationUtils;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.restlet.data.CookieSetting;
 import org.restlet.data.Status;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
+
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class AuthentificationResource extends ServerResource {
 
@@ -21,9 +25,12 @@ public class AuthentificationResource extends ServerResource {
             getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "Wrong format.");
         LoginService service = LoginService.getInstance();
         LoginSession session = service.login(credentials.getEmail(), credentials.getPassword());
-        if (session == null) {
+        User user = UserService.getInstance().getUserForId(session.getUser().getId());
+        AndroidLoginRest response = null;
+        if (session == null || user == null) {
             getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "Authentification failed, please check username and password.");
         }else {
+            response = new AndroidLoginRest(session.getId(), user.getId(), user.isStudent());
             CookieSetting sessionCookie = new CookieSetting(0, AuthentificationUtils.SESSION_COOKIE,session.getId());
             ConfigurationService configService = ConfigurationService.getInstance();
             int cookieLifetime = configService.getConfig().getInt("cookie.lifetime");
@@ -31,7 +38,7 @@ public class AuthentificationResource extends ServerResource {
             getResponse().getCookieSettings().add(sessionCookie);
         }
 
-        return gson.toJson(session);
+        return gson.toJson(response);
     }
 
 }
