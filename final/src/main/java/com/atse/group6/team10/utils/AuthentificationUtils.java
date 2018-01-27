@@ -1,13 +1,11 @@
 package com.atse.group6.team10.utils;
 
-import com.atse.group6.team10.controller.AuthentificationFilter;
 import com.atse.group6.team10.controller.service.ConfigurationService;
 import com.atse.group6.team10.model.LoginSession;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 

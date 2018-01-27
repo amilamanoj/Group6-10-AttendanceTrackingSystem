@@ -1,5 +1,6 @@
 package com.atse.group6.team10.resource;
 
+import com.atse.group6.team10.beans.AttendanceReqRest;
 import com.atse.group6.team10.controller.service.AttendanceService;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.googlecode.objectify.NotFoundException;
@@ -7,7 +8,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
-public class AttendanceResource extends ServerResource {
+public class UpdateAttendanceResource extends ServerResource {
 
     @Override
     public void doInit() {
@@ -18,7 +19,7 @@ public class AttendanceResource extends ServerResource {
     public String updateAttendance(String json) {
         Gson gson = new Gson();
 
-        AttendanceRequestBean attendanceRequest = gson.fromJson(json, AttendanceRequestBean.class);
+        AttendanceReqRest attendanceRequest = gson.fromJson(json, AttendanceReqRest.class);
         if(attendanceRequest.getToken() == null)
             getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, "Token missing.");
 

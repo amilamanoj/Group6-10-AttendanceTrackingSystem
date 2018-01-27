@@ -1,6 +1,6 @@
-package com.atse.group6.team10.resource;
+package com.atse.group6.team10.beans;
 
-public class AttendanceRequestBean {
+public class AttendanceReqRest {
     private String token;
     private boolean attended;
     private boolean presented;

@@ -4,8 +4,6 @@ import com.atse.group6.team10.AttendanceApplication;
 import com.atse.group6.team10.controller.service.AttendanceService;
 import com.atse.group6.team10.controller.service.QRCodeService;
 import com.atse.group6.team10.model.Attendance;
-import com.google.appengine.api.urlfetch.URLFetchService;
-import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.googlecode.objectify.NotFoundException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.ByteArrayRepresentation;
@@ -15,10 +13,9 @@ import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 
 import java.io.*;
-import java.net.URL;
 
 
-public class QrCodeResource extends ServerResource {
+public class AttendanceQrCodeResource extends ServerResource {
 
     private Long studentId;
     private String weekId;

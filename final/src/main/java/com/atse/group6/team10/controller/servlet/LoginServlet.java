@@ -1,7 +1,5 @@
 package com.atse.group6.team10.controller.servlet;
 
-import com.atse.group6.team10.controller.AuthentificationFilter;
-import com.atse.group6.team10.controller.service.ConfigurationService;
 import com.atse.group6.team10.controller.service.LoginService;
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.utils.AuthentificationUtils;

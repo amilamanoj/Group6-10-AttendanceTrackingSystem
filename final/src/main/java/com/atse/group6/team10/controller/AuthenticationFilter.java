@@ -1,20 +1,15 @@
 package com.atse.group6.team10.controller;
 
-import com.atse.group6.team10.controller.servlet.LoginServlet;
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.utils.AuthentificationUtils;
-import org.restlet.engine.adapter.HttpRequest;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
-public class AuthentificationFilter implements Filter {
+public class AuthenticationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

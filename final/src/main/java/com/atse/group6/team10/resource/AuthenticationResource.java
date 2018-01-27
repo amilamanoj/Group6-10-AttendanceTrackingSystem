@@ -1,6 +1,7 @@
 package com.atse.group6.team10.resource;
 
-import com.atse.group6.team10.controller.AuthentificationFilter;
+import com.atse.group6.team10.beans.AndroidLoginRest;
+import com.atse.group6.team10.beans.CredentialRest;
 import com.atse.group6.team10.controller.service.ConfigurationService;
 import com.atse.group6.team10.controller.service.LoginService;
 import com.atse.group6.team10.controller.service.UserService;
@@ -13,9 +14,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
-public class AuthentificationResource extends ServerResource {
+public class AuthenticationResource extends ServerResource {
 
     @Post("json")
     public String login(String json) {

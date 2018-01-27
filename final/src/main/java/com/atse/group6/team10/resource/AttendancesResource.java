@@ -1,6 +1,7 @@
 package com.atse.group6.team10.resource;
 
 import com.atse.group6.team10.AttendanceApplication;
+import com.atse.group6.team10.beans.AttendanceRest;
 import com.atse.group6.team10.controller.service.AttendanceService;
 import com.atse.group6.team10.controller.service.UserService;
 import com.atse.group6.team10.model.Attendance;

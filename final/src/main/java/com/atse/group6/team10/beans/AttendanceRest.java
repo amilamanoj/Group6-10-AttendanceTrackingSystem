@@ -1,4 +1,4 @@
-package com.atse.group6.team10.resource;
+package com.atse.group6.team10.beans;
 
 public class AttendanceRest {
 

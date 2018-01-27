@@ -3,8 +3,6 @@ package com.atse.group6.team10.controller.service;
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.model.User;
 
-import javax.servlet.http.HttpServletRequest;
-
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class LoginService {
