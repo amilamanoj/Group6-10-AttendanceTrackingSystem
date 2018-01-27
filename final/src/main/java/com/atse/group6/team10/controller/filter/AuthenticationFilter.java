@@ -1,4 +1,4 @@
-package com.atse.group6.team10.controller;
+package com.atse.group6.team10.controller.filter;
 
 import com.atse.group6.team10.model.LoginSession;
 import com.atse.group6.team10.utils.AuthentificationUtils;
