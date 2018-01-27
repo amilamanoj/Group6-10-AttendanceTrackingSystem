@@ -12,7 +12,7 @@ import java.io.*;
 public class AuthenticationFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -22,7 +22,23 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        //special pages
+
+        // check for special/public pages
+        boolean isSpecialPage = isSpecialPage(request);
+
+        // check if the session is valid
+        boolean validSession = isValidSession(request);
+
+        if (isSpecialPage || validSession) {
+            filterChain.doFilter(request, response);
+        } else {
+            String loginPageURI = request.getContextPath() + "/login.jsp";
+            response.sendRedirect(loginPageURI +
+                    "?redirect=" + request.getRequestURI());
+        }
+    }
+
+    private boolean isSpecialPage(HttpServletRequest request) {
         String loginPageURI = request.getContextPath() + "/login.jsp";
         String loginServletURI = request.getContextPath() + "/login";
 
@@ -35,29 +51,25 @@ public class AuthenticationFilter implements Filter {
         String restEndpointLoginURI = request.getContextPath() + "/rest/login" ;
         boolean restEndpointLoginRequest = request.getRequestURI().equals(restEndpointLoginURI) ;
 
-        Cookie sessionCookie = AuthentificationUtils.getCookie(AuthentificationUtils.SESSION_COOKIE, request);
-        LoginSession session = AuthentificationUtils.getSessionFromCookie(sessionCookie);
 
         boolean registerRequest = request.getRequestURI().equals(registerURI);
         boolean loadRegistrationPage = request.getRequestURI().equals(registrationPageURI);
 
-        //TODO check whether the session is valid or not
-        boolean validSession = session != null;
+
         boolean loginRequest = request.getRequestURI().equals(loginServletURI);
         boolean loadLoginPage = request.getRequestURI().equals(loginPageURI);
 
         boolean loadLogoutPage = request.getRequestURI().equals(logoutPageURI);
 
-        if (registerRequest || loadRegistrationPage
-                || loginRequest || loadLoginPage
-                || loadLogoutPage
-                || validSession
-                || restEndpointLoginRequest) {
-            filterChain.doFilter(request, response);
-        } else {
-            response.sendRedirect(loginPageURI +
-                    "?redirect=" + request.getRequestURI());
-        }
+        return registerRequest || loadRegistrationPage
+                || loginRequest || loadLoginPage || loadLogoutPage || restEndpointLoginRequest;
+    }
+
+    private boolean isValidSession(HttpServletRequest request) {
+        Cookie sessionCookie = AuthentificationUtils.getCookie(AuthentificationUtils.SESSION_COOKIE, request);
+        LoginSession session = AuthentificationUtils.getSessionFromCookie(sessionCookie);
+        //TODO check whether the session is valid or not
+        return session != null;
     }
 
 
